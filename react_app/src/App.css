@@ -56,7 +56,7 @@
   height: 2px;
   background: white;
   border-radius: 50%;
-  animation: twinkle 2s infinite ease-in-out;
+  animation: twinkle 5s infinite ease-in-out;
 }
 
 .star:nth-child(odd) {
@@ -65,4 +65,100 @@
 
 .star:nth-child(even) {
   animation-duration: 2.5s;
+}
+
+/*Para la pagina principal*/
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto; /* Permite el scroll solo si el contenido es más grande que la pantalla */
+  position: relative;
+}
+
+.stars {
+  width: 1px;
+  height: 1px;
+  background: white;
+  box-shadow: 
+    50px 50px white, 100px 200px white, 200px 300px white,
+    300px 400px white, 400px 500px white, 500px 600px white,
+    600px 700px white, 700px 800px white, 800px 900px white,
+    900px 1000px white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: twinkling 5s infinite ease-in-out;
+}
+
+@keyframes twinkling {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.body{
+  background-color: black;
+  margin: 0px;
+  padding: 0px;
+}
+
+.titleContainer{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+}
+
+.divInfo{
+  
+}
+
+.infoContainer {
+  margin: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  display: block; /* Por defecto, los elementos estarán en bloque (uno debajo del otro) */
+}
+
+/* Media query para pantallas grandes */
+@media (min-width: 1024px) {
+  .infoContainer {
+    display: flex; /* Flexbox para alinear en fila */
+    justify-content: space-between; /* Espacio entre los elementos */
+  }
+  
+  .infoContainer div {
+    flex: 1; /* Para que ambos divs tengan el mismo ancho */
+    margin: 0 10px; /* Espaciado entre los bloques */
+  }
+}
+
+/* Otros estilos */
+.divInfo {
+  position: relative; /* Asegura que esté por encima de las estrellas */
+  color: white;
+}
+
+.titulazo {
+  color: white;
+  font-size: 48px;
+  text-align: center;
+}
+
+.textoInfo {
+  color: white;
+  font-size: 18px;
+  padding: 20px;
+  text-align: justify;
 }
