@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import LoadingScreen from "./LoadingScreen";
+import { Planet } from "./Planet";
 import { cn } from "./utils";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
@@ -135,27 +136,144 @@ const App = () => {
               }
             )}
           >
-            <div className="w-4/5 h-4/5 flex justify-center items-center gap-36 overflow-x-hidden">
-              <button
-                className="bg-slate-50 rounded-md  px-4 py-2 text-black text-2xl"
-                onClick={handlePreviousPlanet}
-              >
-                <MdKeyboardArrowLeft />
-              </button>
+            <div className="w-4/5 h-4/5 flex flex-col items-center justify-center gap-12 overflow-x-hidden relative">
+              <Planet bgColor={planets[currentPlanetIndex].color} />
 
-              <div
-                className="size-96 rounded-full"
-                style={{
-                  backgroundColor: planets[currentPlanetIndex].color,
-                }}
-              ></div>
+              <div className="flex items-center gap-8">
+                <button
+                  className="rounded-md p-2 text-slate-50 border border-gray-50/30 text-2xl"
+                  onClick={handlePreviousPlanet}
+                >
+                  <MdKeyboardArrowLeft />
+                </button>
 
-              <button
-                className="bg-slate-50 rounded-md px-4 py-2 text-black text-2xl"
-                onClick={handleNextPlanet}
-              >
-                <MdKeyboardArrowRight />
-              </button>
+                <div>
+                  <span className="font-bold text-3xl">
+                    {planets[currentPlanetIndex].name}
+                  </span>
+                </div>
+
+                <button
+                  className="rounded-md p-2 text-slate-50 border border-gray-50/30 text-2xl"
+                  onClick={handleNextPlanet}
+                >
+                  <MdKeyboardArrowRight />
+                </button>
+              </div>
+
+              <div className="absolute top-0 left-0 w-1/3 p-4">
+                <div className="w-full">
+                  <input
+                    className="w-full px-4 py-2 rounded-md text-black bg-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                    placeholder="Buscar ..."
+                  />
+                </div>
+
+                <div className="mt-8">
+                  <div className="text-2xl font-bold">
+                    <span>{planets[currentPlanetIndex].name}</span>
+                  </div>
+                  <div className="mt-2 text-sm">
+                    Lorem ipsum odor amet, consectetuer adipiscing elit. Laoreet
+                    potenti libero varius dolor sit convallis gravida tempus a.
+                    Dignissim bibendum leo aliquam nullam rutrum morbi.
+                    Penatibus non luctus interdum egestas sit. Vitae laoreet
+                    class maecenas laoreet venenatis ullamcorper. Nam id iaculis
+                    consequat hendrerit ex elementum nibh enim. Dictum fames
+                    placerat lacinia lectus mollis libero parturient. Parturien
+                    malesuada diam leo nisl consequat cubilia nec fermentum.
+                    Duis fringilla sociosqu lectus a ultricies. Tristique libero
+                    bibendum leo himenaeos suscipit consectetur iaculis pulvinar
+                    leo? Fermentum pulvinar duis maecenas iaculis vitae tortor
+                    placerat taciti. Maximus eu luctus nisl quisque orci metus
+                    leo. Ad nunc sagittis arcu parturient dictumst mus. Accumsan
+                    facilisi torquent sit vivamus, penatibus platea mus.
+                    Consectetur nec quis parturient curabitur ante, tincidunt
+                    etiam. Tempor ultrices sollicitudin, senectus parturient
+                    arcu lobortis. Faucibus inceptos ac risus tincidunt
+                    condimentum felis montes. Donec convallis pharetra gravida
+                    mi cras aptent quam. Inceptos fermentum nibh ullamcorper
+                    dictum lectus velit per neque. Primis natoque elit eleifend
+                    eros magnis sit porta facilisi morbi. Etiam non lectus
+                    venenatis ex hac vitae amet diam. Tempor felis mi habitant,
+                    commodo nibh lobortis himenaeos. Ultricies praesent nisl;
+                    cubilia tincidunt ut placerat.
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap mt-2 gap-2 p-4">
+                  {Array.from({ length: 12 }).map(() => (
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      Lorem
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-2 flex gap-2">
+                  <button
+                    className="px-6 py-1 bg-orange-500 hover:bg-orange-700 rounded-md font-medium transition-all"
+                    onClick={() => setShowPlanets(false)}
+                  >
+                    Go Back
+                  </button>
+                  <button className="px-6 py-1 border border-slate-50 text-slate-50-500 rounded-md font-medium hover:bg-slate-50 hover:text-slate-950 transition-colors duration-200">
+                    Pick a random planet
+                  </button>
+                </div>
+              </div>
+
+              {/*  */}
+              <div className="absolute bottom-0 right-0 w-1/3 h-full flex flex-col justify-end p-4">
+                <div className="text-sm">
+                  Lorem ipsum odor amet, consectetuer adipiscing elit. Pulvinar
+                  nostra pulvinar inceptos sem nulla vestibulum. Ad nostra
+                  himenaeos netus habitasse fusce euismod. Nisi enim libero nibh
+                  adipiscing eros libero potenti interdum. Aliquet senectus
+                  felis conubia; commodo magna ridiculus. Nisl pharetra
+                  consectetur leo nunc volutpat maecenas magnis. Consequat
+                  ornare non habitasse mattis egestas cursus metus. Elit tortor
+                  in a cras ad. Proin accumsan neque iaculis rutrum nec nibh
+                  purus molestie. Praesent nec dapibus imperdiet magnis lacus
+                  odio ligula. Velit ex dictum pharetra primis dapibus libero
+                  eget lacinia. Dapibus blandit dictum integer sem imperdiet
+                  arcu. Nibh sed libero fermentum eleifend bibendum nulla
+                  dignissim tempor. Pellentesque lobortis curae habitasse est
+                  penatibus vestibulum laoreet sapien. Finibus natoque vivamus
+                  sit massa facilisis curabitur. Est tristique hendrerit sodales
+                  pulvinar semper urna. Aliquam nostra posuere sem lorem elit.
+                  Risus eros volutpat sodales magnis diam velit. Ex luctus enim
+                  justo semper volutpat. Hac pharetra nam cursus facilisis dolor
+                  lorem. Elementum mauris nam mus pellentesque venenatis
+                  senectus. Maecenas at torquent nullam taciti diam varius
+                  facilisis pretium. Tortor nibh integer nunc eu felis netus
+                  phasellus lacinia tempus.
+                </div>
+
+                <div className="w-full h-1/3 bg-gray-950 rounded-lg overflow-hidden shadow-lg mt-4">
+                  <div className="w-full h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+                    {Array.from({ length: 50 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className="p-3 border-b border-gray-700 hover:bg-gray-700 transition-colors"
+                        onClick={() =>
+                          console.log(
+                            "Should select the thing in order to display some data"
+                          )
+                        }
+                      >
+                        Item {index + 1}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="w-full mt-4">
+                  <input
+                    className="w-full px-4 py-2 rounded-md text-black bg-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                    placeholder="Buscar ..."
+                  />
+                </div>
+              </div>
             </div>
           </section>
         </div>
