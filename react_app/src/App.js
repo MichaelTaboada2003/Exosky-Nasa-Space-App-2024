@@ -196,15 +196,15 @@ const App = () => {
             )}
           >
             <div className="w-full h-full md:w-4/5 md:h-4/5 flex flex-col items-center justify-center gap-12 overflow-x-hidden relative">
+            <DrawingCanvas
+            showStarView={showStarView}
+            setShowStarView={setShowStarView}
+            />
               <SpaceView
                 showStarView={showStarView}
                 setShowStarView={setShowStarView}
                 planetStars={planetStars}
               />
-                <DrawingCanvas
-                showStarView={showStarView}
-                setShowStarView={setShowStarView}
-                />
               <div className="flex items-center gap-4 md:gap-8">
                 <button
                   className="rounded-md p-2 text-slate-50 border border-gray-50/30 text-xl md:text-2xl"

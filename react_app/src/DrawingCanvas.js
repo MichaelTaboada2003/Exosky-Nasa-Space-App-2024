@@ -16,7 +16,7 @@ const DrawingCanvas = () => {
     // Establecer el estilo de línea
     context.lineCap = "round";
     context.lineJoin = "round";
-    context.lineWidth = 5; // Grosor de línea
+    context.lineWidth = 4; // Grosor de línea
     context.strokeStyle = "#ffffff"; // Color de línea
 
     const startDrawing = (event) => {
@@ -58,7 +58,7 @@ const DrawingCanvas = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute top-0 left-0 z-50 " // Mantener el canvas al frente
+      className="absolute top-0 left-0 z-50 opacity-0" // Mantener el canvas al frente
       style={{ pointerEvents: "auto" }} // Habilitar interacción con el canvas
     ></canvas>
   );
