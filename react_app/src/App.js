@@ -137,28 +137,28 @@ const App = () => {
               }
             )}
           >
-            <div className="w-4/5 h-4/5 flex flex-col items-center justify-center gap-12 overflow-x-hidden relative">
+            <div className="w-full h-full md:w-4/5 md:h-4/5 flex flex-col items-center justify-center gap-12 overflow-x-hidden relative">
               <Planet
                 bgColor={planets[currentPlanetIndex].color}
                 setPlanetIsBeingHovered={setPlanetIsBeingHovered}
               />
 
-              <div className="flex items-center gap-8">
+              <div className="flex items-center gap-4 md:gap-8">
                 <button
-                  className="rounded-md p-2 text-slate-50 border border-gray-50/30 text-2xl"
+                  className="rounded-md p-2 text-slate-50 border border-gray-50/30 text-xl md:text-2xl"
                   onClick={handlePreviousPlanet}
                 >
                   <MdKeyboardArrowLeft />
                 </button>
 
                 <div>
-                  <span className="font-bold text-3xl">
+                  <span className="font-bold text-2xl md:text-3xl">
                     {planets[currentPlanetIndex].name}
                   </span>
                 </div>
 
                 <button
-                  className="rounded-md p-2 text-slate-50 border border-gray-50/30 text-2xl"
+                  className="rounded-md p-2 text-slate-50 border border-gray-50/30 text-xl md:text-2xl"
                   onClick={handleNextPlanet}
                 >
                   <MdKeyboardArrowRight />
@@ -167,21 +167,23 @@ const App = () => {
 
               <div
                 className={cn(
-                  "absolute top-0 left-0 w-1/3 p-4 opacity-0 transition-opacity duration-300",
+                  "w-full md:w-1/3 p-4 my-5",
+                  "md:absolute md:top-0 md:left-0",
+                  "md:transition-opacity md:duration-300",
                   {
-                    "opacity-0": !planetIsBeingHovered,
-                    "opacity-100": planetIsBeingHovered,
+                    "md:opacity-0": !planetIsBeingHovered,
+                    "md:opacity-100": planetIsBeingHovered,
                   }
                 )}
               >
-                <div className="w-full">
+                <div className="w-full sm:flex sm:justify-center px-4 md:px-0">
                   <input
                     className="w-full px-4 py-2 rounded-md text-black bg-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                     placeholder="Buscar ..."
                   />
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-8 mx-4">
                   <div className="text-2xl font-bold">
                     <span>{planets[currentPlanetIndex].name}</span>
                   </div>
@@ -195,7 +197,7 @@ const App = () => {
                   ))}
                 </div>
               </div>
-              <div className="mt-2 flex gap-2 opacity-100 absolute bottom-0 left-0">
+              <div className="mt-2 flex gap-2 opacity-100 absolute bottom-12 md:bottom-0 left-8 md:left-4">
                 <button
                   className="px-6 py-1 bg-orange-500 hover:bg-orange-700 rounded-md font-medium transition-all"
                   onClick={() => setShowPlanets(false)}
