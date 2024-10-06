@@ -9,7 +9,7 @@ const App = () => {
   const [showPlanets, setShowPlanets] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
-  const [planetIsBeingHovered, setPlanetIsBeingHovered] = useState(false);
+  const [showStarView, setShowStarView] = useState(false);
 
   const infoSectionRef = useRef(null);
   const planetSectionRef = useRef(null);
@@ -125,7 +125,7 @@ const App = () => {
     "Ks: ",
     "Gaia magnitude: ",
   ];
-  
+
   const keys = Object.keys(planets[0]);
   const handleSceneTransition = () => {
     setIsTransitioning(true);
@@ -241,7 +241,8 @@ const App = () => {
             <div className="w-full h-full md:w-4/5 md:h-4/5 flex flex-col items-center justify-center gap-12 overflow-x-hidden relative">
               <SpaceView
                 bgColor={planets[currentPlanetIndex].color}
-                setPlanetIsBeingHovered={setPlanetIsBeingHovered}
+                showStarView={showStarView}
+                setShowStarView={setShowStarView}
               />
 
               <div className="flex items-center gap-4 md:gap-8">
@@ -272,8 +273,8 @@ const App = () => {
                   "md:absolute md:top-0 md:left-0",
                   "md:transition-opacity md:duration-300",
                   {
-                    "md:opacity-0": !planetIsBeingHovered,
-                    "md:opacity-100": planetIsBeingHovered,
+                    "md:opacity-0": showStarView,
+                    "md:opacity-100": !showStarView,
                   }
                 )}
               >

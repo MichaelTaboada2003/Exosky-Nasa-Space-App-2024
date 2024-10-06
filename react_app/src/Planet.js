@@ -1,8 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
 export function SpaceView(props) {
-  const [showStarView, setShowStarView] = useState(false);
-
   const sampleStars = [
     { name: "Sirius", ra: "06h 45m", dec: "-16° 43'", magnitude: -1.46 },
     { name: "Vega", ra: "18h 37m", dec: "+38° 47'", magnitude: 0.03 },
@@ -23,16 +21,18 @@ export function SpaceView(props) {
 
   return (
     <div className="w-full h-screen relative">
-      {!showStarView ? (
+      {!props.showStarView ? (
         <div className="flex flex-col items-center justify-center h-full">
           <Planet
             bgColor={props.bgColor}
-            setPlanetIsBeingHovered={props.setPlanetIsBeingHovered}
-            setShowStarView={setShowStarView}
+            setShowStarView={props.setShowStarView}
           />
         </div>
       ) : (
-        <StarView stars={sampleStars} onClose={() => setShowStarView(false)} />
+        <StarView
+          stars={sampleStars}
+          onClose={() => props.setShowStarView(false)}
+        />
       )}
     </div>
   );
@@ -59,8 +59,6 @@ export function Planet(props) {
           backgroundImage:
             "linear-gradient(45deg, rgba(0,0,0,0.2) 0%, transparent 50%, rgba(255,255,255,0.2) 100%)",
         }}
-        onMouseEnter={() => props.setPlanetIsBeingHovered(true)}
-        onMouseLeave={() => props.setPlanetIsBeingHovered(false)}
         onClick={() => props.setShowStarView(true)}
       />
     </div>
@@ -99,8 +97,6 @@ function StarView({ stars, onClose }) {
     const r = (2 + Math.cos(decRadians)) / 3;
     const x = r * Math.cos(raRadians);
     const y = r * Math.sin(raRadians);
-
-    console.log(hours, minutes);
 
     const margin = {
       x: dimensions.width * 0.1,
