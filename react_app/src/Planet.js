@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { DrawingCanvas } from "./DrawingCanvas";
 
-const planetImages= [];
+const planetImages = [
+  
+];
 
 export function SpaceView(props) {
   return (
@@ -21,10 +23,17 @@ export function SpaceView(props) {
 }
 
 export function Planet(props) {
+  const [imageURL, setImageURL] = useState();
+
+  useEffect(() => {
+    setImageURL(planetImages[Math.floor(Math.random() * planetImages.length)]);
+  }, []);
 
   return (
     <div className="relative perspective-[1000px]">
-      <img src="/planeta1.jpg" className="size-80 rounded-full"/>
+      {imageURL && (
+        <img src={`/${imageURL}`} className="size-80 rounded-full" />
+      )}
     </div>
   );
 }
