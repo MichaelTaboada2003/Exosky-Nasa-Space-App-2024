@@ -1,55 +1,36 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import LoadingScreen from "./LoadingScreen";
+import { cn } from "./utils";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-
-  // Estado para manejar el índice del planeta actual
+  const [showPlanets, setShowPlanets] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
 
-  // Creamos referencias para las secciones
   const infoSectionRef = useRef(null);
   const planetSectionRef = useRef(null);
 
   // Definir un array con planetas, colores y tamaños
   const planets = [
-    { name: "Mercury", color: "#b1b1b1", size: "40px" },
-    { name: "Venus", color: "#e3c099", size: "80px" },
-    { name: "Earth", color: "#6b93d6", size: "100px" },
-    { name: "Mars", color: "#d14f31", size: "60px" },
-    { name: "Jupiter", color: "#e29d62", size: "150px" },
-    { name: "Saturn", color: "#e6d69f", size: "120px" },
-    { name: "Uranus", color: "#7ad9dc", size: "90px" },
-    { name: "Neptune", color: "#466bc9", size: "85px" },
+    { name: "Mercury", color: "#b1b1b1" },
+    { name: "Venus", color: "#e3c099" },
+    { name: "Earth", color: "#6b93d6" },
+    { name: "Mars", color: "#d14f31" },
+    { name: "Jupiter", color: "#e29d62" },
+    { name: "Saturn", color: "#e6d69f" },
+    { name: "Uranus", color: "#7ad9dc" },
+    { name: "Neptune", color: "#466bc9" },
   ];
 
-  // Función para hacer scroll a la sección de planetas
-  const scrollToPlanets = () => {
-    planetSectionRef.current.scrollIntoView({ behavior: "smooth" });
+  const handleSceneTransition = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setShowPlanets((prev) => !prev);
+      setIsTransitioning(false);
+    }, 500);
   };
-
-  // Detecta cuando la infoSection sale del viewport y automáticamente hace scroll a la sección de planetas
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (!entry.isIntersecting) {
-          scrollToPlanets();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (infoSectionRef.current) {
-      observer.observe(infoSectionRef.current);
-    }
-
-    return () => {
-      if (infoSectionRef.current) {
-        observer.unobserve(infoSectionRef.current);
-      }
-    };
-  }, []);
 
   // Funciones para navegar entre planetas
   const handleNextPlanet = () => {
@@ -80,13 +61,22 @@ const App = () => {
       {loading ? (
         <LoadingScreen setLoading={setLoading} />
       ) : (
-        <div className="min-h-screen w-full flex flex-col items-center justify-center text-slate-50 overflow-hidden">
+        <div className="min-h-screen w-full flex flex-col items-center justify-center text-slate-50 overflow-x-hidden">
           {/* Sección 1: Título e información */}
-          <section className="max-w-6xl w-full px-4 flex flex-col items-center" ref={infoSectionRef}>
+          <section
+            ref={infoSectionRef}
+            className={cn(
+              "absolute w-full transition-all duration-500 ease-in-out transform flex flex-col items-center",
+              {
+                "translate-x-0 opacity-100": !showPlanets && !isTransitioning,
+                "-translate-y-full opacity-0": showPlanets || isTransitioning,
+              }
+            )}
+          >
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold">EXOSKY!</h1>
             </div>
-            <div className="flex flex-col justify-center xl:grid xl:grid-cols-2 gap-12">
+            <div className="flex flex-col justify-center xl:grid xl:grid-cols-2 gap-12 mx-14">
               <div className="flex flex-col gap-2 mx-12 sm:mx-0">
                 <h3 className="text-3xl text-slate-50 font-semibold">
                   What is an exoplanet?
@@ -120,34 +110,52 @@ const App = () => {
                 </p>
               </div>
             </div>
-            {/* Botón para hacer scroll a la sección de planetas */}
+
             <button
-              onClick={scrollToPlanets}
-              className="bg-slate-50 px-4 py-2 rounded-lg text-black font-bold"
+              className="bg-slate-50 px-6 py-3 rounded-lg text-black font-bold
+                             hover:bg-slate-200 transition-all duration-300
+                             transform hover:scale-105 mt-6"
+              onClick={handleSceneTransition}
             >
               Go to Planets
             </button>
           </section>
 
           {/* Sección 2: Planetas */}
-          <section className="hidden px-4" ref={planetSectionRef}>
-            <div className="planetContainer">
-              {/* Muestra el planeta actual como un círculo */}
+          <section
+            ref={planetSectionRef}
+            className={cn(
+              "absolute w-full h-full transition-all duration-500 ease-in-out transform flex items-center justify-center",
+              {
+                "translate-x-0 opacity-100": showPlanets && !isTransitioning,
+                "translate-y-full opacity-0": !showPlanets || isTransitioning,
+              },
+              {
+                hidden: !showPlanets,
+              }
+            )}
+          >
+            <div className="w-4/5 h-4/5 flex justify-center items-center gap-36 overflow-x-hidden">
+              <button
+                className="bg-slate-50 rounded-md  px-4 py-2 text-black text-2xl"
+                onClick={handlePreviousPlanet}
+              >
+                <MdKeyboardArrowLeft />
+              </button>
+
               <div
-                className="planetDisplay"
+                className="size-96 rounded-full"
                 style={{
                   backgroundColor: planets[currentPlanetIndex].color,
-                  width: planets[currentPlanetIndex].size,
-                  height: planets[currentPlanetIndex].size,
-                  borderRadius: "50%",
                 }}
               ></div>
 
-              {/* Botones para navegar entre los planetas */}
-              <div className="planetControls">
-                <button onClick={handlePreviousPlanet}>Previous</button>
-                <button onClick={handleNextPlanet}>Next</button>
-              </div>
+              <button
+                className="bg-slate-50 rounded-md px-4 py-2 text-black text-2xl"
+                onClick={handleNextPlanet}
+              >
+                <MdKeyboardArrowRight />
+              </button>
             </div>
           </section>
         </div>
