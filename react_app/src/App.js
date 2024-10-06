@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import LoadingScreen from "./LoadingScreen";
 import { Planet } from "./Planet";
+import { Sun } from "./sun";
 import { cn } from "./utils";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
@@ -9,7 +10,10 @@ const App = () => {
   const [showPlanets, setShowPlanets] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
+  const [currentSunIndex, setCurrentSunIndex] = useState(0);
   const [planetIsBeingHovered, setPlanetIsBeingHovered] = useState(false);
+  const [SunIsBeingHovered, setSunIsBeingHovered] = useState(false);
+
 
   const infoSectionRef = useRef(null);
   const planetSectionRef = useRef(null);
@@ -127,6 +131,66 @@ const App = () => {
   ];
   
   const keys = Object.keys(planets[0]);
+
+  const suns = [
+    {
+      temperture: '500k',
+      stellarRadius: '68 solar radius',
+      stellarMass: '100 solar mass',
+      name: '11 Com'
+    },
+    {
+      temperture: '500k',
+      stellarRadius: '68 solar radius',
+      stellarMass: '100 solar mass',
+      name: '11 Com'
+    },
+    {
+      temperture: '500k',
+      stellarRadius: '68 solar radius',
+      stellarMass: '100 solar mass',
+      name: '11 Com'
+    },
+    {
+      temperture: '500k',
+      stellarRadius: '68 solar radius',
+      stellarMass: '100 solar mass',
+      name: '11 Com'
+    },
+    {
+      temperture: '500k',
+      stellarRadius: '68 solar radius',
+      stellarMass: '100 solar mass',
+      name: '11 Com'
+    },
+    {
+      temperture: '500k',
+      stellarRadius: '68 solar radius',
+      stellarMass: '100 solar mass',
+      name: '11 Com'
+    },
+    {
+      temperture: '500k',
+      stellarRadius: '68 solar radius',
+      stellarMass: '100 solar mass',
+      name: '11 Com'
+    }
+  ]
+
+  const keysNamesSuns = [
+    "Name: ",
+    "Discovery year: ",
+    "Orbit period: ",
+    "Planet radius: ",
+    "Coordinates: ",
+    "Distance: ",
+    "V: ",
+    "Ks: ",
+    "Gaia magnitude: ",
+  ];
+  
+  const keysSuns = Object.keys(suns[0]);
+
   const handleSceneTransition = () => {
     setIsTransitioning(true);
     setTimeout(() => {
@@ -143,6 +207,17 @@ const App = () => {
   const handlePreviousPlanet = () => {
     setCurrentPlanetIndex((prevIndex) =>
       prevIndex === 0 ? planets.length - 1 : prevIndex - 1
+    ); // Retrocede, y si está en el primero, vuelve al último
+  };
+
+  // Funciones para navegar entre soles
+  const handleNextSun = () => {
+    setCurrentSunIndex((prevIndex) => (prevIndex + 1) % suns.length); // Avanza, y si llega al final vuelve al primero
+  };
+
+  const handlePreviousSun = () => {
+    setCurrentSunIndex((prevIndex) =>
+      prevIndex === 0 ? suns.length - 1 : prevIndex - 1
     ); // Retrocede, y si está en el primero, vuelve al último
   };
 
@@ -243,6 +318,10 @@ const App = () => {
                 bgColor={planets[currentPlanetIndex].color}
                 setPlanetIsBeingHovered={setPlanetIsBeingHovered}
               />
+              
+              <Sun
+              setSunIsBeingHovered={setSunIsBeingHovered}
+              />
 
               <div className="flex items-center gap-4 md:gap-8">
                 <button
@@ -266,7 +345,7 @@ const App = () => {
                 </button>
               </div>
 
-              <div
+              <div /*Div de informacion del planeta*/
                 className={cn(
                   "w-full md:w-1/3 p-4 my-5",
                   "md:absolute md:top-0 md:left-0",
@@ -299,6 +378,34 @@ const App = () => {
                   ))}
                 </div>
               </div>
+
+              <div /*Div de informacion del Sol*/
+                className={cn(
+                  "w-full md:w-1/3 p-4 my-5",
+                  "md:absolute md:top-0 md:left-0",
+                  "md:transition-opacity md:duration-300",
+                  {
+                    "md:opacity-0": !SunIsBeingHovered,
+                    "md:opacity-100": SunIsBeingHovered,
+                  }
+                )}
+              >
+                <div className="mt-8 mx-4">
+                  <div className="text-2xl font-bold">
+                    <span>{suns[currentSunIndex].name}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap mt-2 gap-2 p-4">
+                  {Array.from({ length: 9 }).map((_, i) => (
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      {keysNamesSuns[i]}
+                      {suns[currentSunIndex][keysSuns[i]]}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div className="mt-2 flex gap-2 opacity-100 absolute bottom-12 md:bottom-0 left-8 md:left-4">
                 <button
                   className="px-6 py-1 bg-orange-500 hover:bg-orange-700 rounded-md font-medium transition-all"
