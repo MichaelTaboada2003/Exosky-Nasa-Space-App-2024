@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { useState, useRef, useEffect } from 'react';
 import LoadingScreen from './LoadingScreen';
+=======
+import React, { useState } from "react";
+import LoadingScreen from "./LoadingScreen";
+>>>>>>> a256c7a (Minor changes)
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -75,7 +80,7 @@ const App = () => {
   };
 
   return (
-    <div className="body">
+    <div className="min-h-screen relative">
       {generateStars()}
       {loading ? (
         <LoadingScreen setLoading={setLoading} />
