@@ -2,11 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import { DrawingCanvas } from "./DrawingCanvas";
 
 const planetImages = [
-  'planeta1.jpg',
-  'planeta2.jpg',
-  'planeta3.jpg',
-  'planeta4.jpg',
-  'planeta5.jpg',
+  "planeta1.png",
+  "planeta2.png",
+  "planeta3.png",
+  "planeta4.png",
+  "planeta5.png",
 ];
 
 export function SpaceView(props) {
@@ -30,8 +30,10 @@ export function Planet(props) {
   const [imageURL, setImageURL] = useState();
 
   useEffect(() => {
-    setImageURL(planetImages[Math.floor(Math.random() * planetImages.length)]);
-    console.log(imageURL)
+    const newImageURL =
+      planetImages[Math.floor(Math.random() * planetImages.length)];
+
+    setImageURL(newImageURL)
   }, []);
 
   return (
