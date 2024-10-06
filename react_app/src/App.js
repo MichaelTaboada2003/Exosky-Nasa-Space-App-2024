@@ -201,7 +201,10 @@ const App = () => {
                 setShowStarView={setShowStarView}
                 planetStars={planetStars}
               />
-                <DrawingCanvas/>
+                <DrawingCanvas
+                showStarView={showStarView}
+                setShowStarView={setShowStarView}
+                />
               <div className="flex items-center gap-4 md:gap-8">
                 <button
                   className="rounded-md p-2 text-slate-50 border border-gray-50/30 text-xl md:text-2xl"
