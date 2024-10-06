@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import LoadingScreen from "./LoadingScreen";
 import { SpaceView } from "./Planet";
 import { Sun } from "./sun";
@@ -13,7 +13,6 @@ const App = () => {
   const [currentSunIndex, setCurrentSunIndex] = useState(0);
   const [showStarView, setShowStarView] = useState(false);
   const [SunIsBeingHovered, setSunIsBeingHovered] = useState(false);
-
 
   const infoSectionRef = useRef(null);
   const planetSectionRef = useRef(null);
@@ -134,48 +133,48 @@ const App = () => {
 
   const suns = [
     {
-      temperture: '500k',
-      stellarRadius: '68 solar radius',
-      stellarMass: '100 solar mass',
-      name: '11 Com'
+      temperture: "500k",
+      stellarRadius: "68 solar radius",
+      stellarMass: "100 solar mass",
+      name: "11 Com",
     },
     {
-      temperture: '500k',
-      stellarRadius: '68 solar radius',
-      stellarMass: '100 solar mass',
-      name: '11 Com'
+      temperture: "500k",
+      stellarRadius: "68 solar radius",
+      stellarMass: "100 solar mass",
+      name: "11 Com",
     },
     {
-      temperture: '500k',
-      stellarRadius: '68 solar radius',
-      stellarMass: '100 solar mass',
-      name: '11 Com'
+      temperture: "500k",
+      stellarRadius: "68 solar radius",
+      stellarMass: "100 solar mass",
+      name: "11 Com",
     },
     {
-      temperture: '500k',
-      stellarRadius: '68 solar radius',
-      stellarMass: '100 solar mass',
-      name: '11 Com'
+      temperture: "500k",
+      stellarRadius: "68 solar radius",
+      stellarMass: "100 solar mass",
+      name: "11 Com",
     },
     {
-      temperture: '500k',
-      stellarRadius: '68 solar radius',
-      stellarMass: '100 solar mass',
-      name: '11 Com'
+      temperture: "500k",
+      stellarRadius: "68 solar radius",
+      stellarMass: "100 solar mass",
+      name: "11 Com",
     },
     {
-      temperture: '500k',
-      stellarRadius: '68 solar radius',
-      stellarMass: '100 solar mass',
-      name: '11 Com'
+      temperture: "500k",
+      stellarRadius: "68 solar radius",
+      stellarMass: "100 solar mass",
+      name: "11 Com",
     },
     {
-      temperture: '500k',
-      stellarRadius: '68 solar radius',
-      stellarMass: '100 solar mass',
-      name: '11 Com'
-    }
-  ]
+      temperture: "500k",
+      stellarRadius: "68 solar radius",
+      stellarMass: "100 solar mass",
+      name: "11 Com",
+    },
+  ];
 
   const keysNamesSuns = [
     "Name: ",
@@ -188,7 +187,7 @@ const App = () => {
     "Ks: ",
     "Gaia magnitude: ",
   ];
-  
+
   const keysSuns = Object.keys(suns[0]);
 
   const handleSceneTransition = () => {
@@ -232,6 +231,10 @@ const App = () => {
     }
     return starsArray;
   };
+
+  useEffect(() => {
+    console.log(SunIsBeingHovered);
+  }, [SunIsBeingHovered]);
 
   return (
     <div className="min-h-screen relative">
@@ -319,10 +322,8 @@ const App = () => {
                 showStarView={showStarView}
                 setShowStarView={setShowStarView}
               />
-              
-              <Sun
-              setSunIsBeingHovered={setSunIsBeingHovered}
-              />
+
+              <Sun setSunIsBeingHovered={setSunIsBeingHovered} />
 
               <div className="flex items-center gap-4 md:gap-8">
                 <button
@@ -380,14 +381,13 @@ const App = () => {
                 </div>
               </div>
 
-              <div /*Div de informacion del Sol*/
+              <div
                 className={cn(
                   "w-full md:w-1/3 p-4 my-5",
-                  "md:absolute md:top-0 md:left-0",
-                  "md:transition-opacity md:duration-300",
-                  {
-                    "md:opacity-0": !SunIsBeingHovered,
-                    "md:opacity-100": SunIsBeingHovered,
+                  "md:absolute md:top-0 md:right-0",
+                  "md:transition-opacity md:duration-300", {
+                    "opacity-0": !SunIsBeingHovered,
+                    "opacity-100": SunIsBeingHovered
                   }
                 )}
               >
