@@ -156,7 +156,7 @@ function StarView({ stars, onClose }) {
 
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20"
+        className="absolute top-8 right-4 bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20 "
       >
         Go back to planet
       </button>
