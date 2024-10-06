@@ -124,13 +124,13 @@ function StarView({ stars, onClose }) {
 
       <DrawingCanvas parentRef={containerRef} />
 
-      <div className="absolute bottom-4 left-4 text-white/50 text-sm">
+      <div className="absolute bottom-4 left-4 text-white/50 text-sm select-none">
         {`${Math.round(dimensions.width)} x ${Math.round(dimensions.height)}px`}
       </div>
 
       <button
         onClick={onClose}
-        className="absolute top-8 right-4 bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20 "
+        className="absolute top-8 right-4 bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20 select-none"
       >
         Go back to planet
       </button>

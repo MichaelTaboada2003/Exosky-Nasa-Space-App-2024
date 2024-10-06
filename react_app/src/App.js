@@ -185,7 +185,7 @@ const App = () => {
           <section
             ref={planetSectionRef}
             className={cn(
-              "absolute w-full h-full transition-all duration-500 ease-in-out transform flex items-center justify-center",
+              "absolute w-full h-full transition-all duration-500 ease-in-out transform flex items-center justify-center select-none",
               {
                 "translate-x-0 opacity-100": showPlanets && !isTransitioning,
                 "translate-y-full opacity-0": !showPlanets || isTransitioning,
