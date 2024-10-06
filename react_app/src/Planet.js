@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { DrawingCanvas } from "./DrawingCanvas";
 
 export function SpaceView(props) {
   return (
@@ -63,7 +64,7 @@ function StarView({ stars, onClose }) {
 
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
-  
+
   const raMin = Math.min(...stars.map((s) => s.ra));
   const raMax = Math.max(...stars.map((s) => s.ra));
   const decMin = Math.min(...stars.map((s) => s.dec));
@@ -104,8 +105,6 @@ function StarView({ stars, onClose }) {
       className="w-full h-full relative overflow-hidden p-4"
       ref={containerRef}
     >
-      <div className="absolute inset-0" />
-
       {dimensions.width > 0 &&
         stars.map((star, index) => {
           const coords = convertToScreenCoordinates(star.ra, star.dec);
@@ -113,7 +112,7 @@ function StarView({ stars, onClose }) {
           return (
             <div
               key={index}
-              className="absolute rounded-full bg-white size-1 shadow-[0_0_5px_3px_rgba(255,255,255,0.6)] animate-pulse"
+              className="absolute rounded-full bg-white size-1 shadow-[0_0_5px_3px_rgba(255,255,255,0.6)] animate-pulse pointer-events-none"
               style={{
                 left: `${coords.x}%`,
                 top: `${coords.y}%`,
@@ -122,6 +121,8 @@ function StarView({ stars, onClose }) {
             />
           );
         })}
+
+      <DrawingCanvas parentRef={containerRef} />
 
       <div className="absolute bottom-4 left-4 text-white/50 text-sm">
         {`${Math.round(dimensions.width)} x ${Math.round(dimensions.height)}px`}

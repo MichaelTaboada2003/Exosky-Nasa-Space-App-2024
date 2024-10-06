@@ -1,66 +1,37 @@
 import React, { useRef, useState, useEffect } from "react";
+import { ReactSketchCanvas } from "react-sketch-canvas";
 
-const DrawingCanvas = () => {
+export const DrawingCanvas = ({ parentRef }) => {
   const canvasRef = useRef(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
+  const [canvasSize, setCanvasSize] = useState({ width: 100, height: 100 });
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
+    const resizeCanvas = () => {
+      if (!parentRef.current) return;
 
-    // Establecer el tamaño del canvas
-    context.canvas.width = window.innerWidth;
-    context.canvas.height = window.innerHeight;
-
-    // Establecer el estilo de línea
-    context.lineCap = "round";
-    context.lineJoin = "round";
-    context.lineWidth = 4; // Grosor de línea
-    context.strokeStyle = "#ffffff"; // Color de línea
-
-    const startDrawing = (event) => {
-      const { offsetX, offsetY } = event.nativeEvent;
-      setIsDrawing(true);
-      setLastPosition({ x: offsetX, y: offsetY });
+      setCanvasSize({
+        width: parentRef.current.offsetWidth,
+        height: parentRef.current.offsetHeight,
+      });
     };
 
-    const draw = (event) => {
-      if (!isDrawing) return;
+    resizeCanvas();
 
-      const { offsetX, offsetY } = event.nativeEvent;
-      context.beginPath();
-      context.moveTo(lastPosition.x, lastPosition.y);
-      context.lineTo(offsetX, offsetY);
-      context.stroke();
-      setLastPosition({ x: offsetX, y: offsetY });
-    };
-
-    const stopDrawing = () => {
-      setIsDrawing(false);
-    };
-
-    // Event listeners
-    canvas.addEventListener("mousedown", startDrawing);
-    canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener("mouseup", stopDrawing);
-    canvas.addEventListener("mouseleave", stopDrawing);
-
-    return () => {
-      // Cleanup event listeners when the component unmounts
-      canvas.removeEventListener("mousedown", startDrawing);
-      canvas.removeEventListener("mousemove", draw);
-      canvas.removeEventListener("mouseup", stopDrawing);
-      canvas.removeEventListener("mouseleave", stopDrawing);
-    };
-  }, [isDrawing, lastPosition]);
+    window.addEventListener("resize", resizeCanvas);
+    return () => window.removeEventListener("resize", resizeCanvas);
+  }, []);
 
   return (
-    <canvas
+    <ReactSketchCanvas
       ref={canvasRef}
-      className="absolute top-0 left-0 z-50 opacity-0" // Mantener el canvas al frente
-      style={{ pointerEvents: "auto" }} // Habilitar interacción con el canvas
-    ></canvas>
+      width={canvasSize.width}
+      height={canvasSize.height}
+      strokeWidth={4}
+      strokeColor="white"
+      backgroundImage="none"
+      exportWithBackgroundImage={false}
+      className="absolute top-0 left-0 pointer-events-auto"
+    />
   );
 };
 
