@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import LoadingScreen from "./LoadingScreen";
-import { Planet } from "./Planet";
+import { SpaceView } from "./Planet";
 import { Sun } from "./sun";
 import { cn } from "./utils";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -11,7 +11,7 @@ const App = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
   const [currentSunIndex, setCurrentSunIndex] = useState(0);
-  const [planetIsBeingHovered, setPlanetIsBeingHovered] = useState(false);
+  const [showStarView, setShowStarView] = useState(false);
   const [SunIsBeingHovered, setSunIsBeingHovered] = useState(false);
 
 
@@ -129,7 +129,7 @@ const App = () => {
     "Ks: ",
     "Gaia magnitude: ",
   ];
-  
+
   const keys = Object.keys(planets[0]);
 
   const suns = [
@@ -314,9 +314,10 @@ const App = () => {
             )}
           >
             <div className="w-full h-full md:w-4/5 md:h-4/5 flex flex-col items-center justify-center gap-12 overflow-x-hidden relative">
-              <Planet
+              <SpaceView
                 bgColor={planets[currentPlanetIndex].color}
-                setPlanetIsBeingHovered={setPlanetIsBeingHovered}
+                showStarView={showStarView}
+                setShowStarView={setShowStarView}
               />
               
               <Sun
@@ -351,8 +352,8 @@ const App = () => {
                   "md:absolute md:top-0 md:left-0",
                   "md:transition-opacity md:duration-300",
                   {
-                    "md:opacity-0": !planetIsBeingHovered,
-                    "md:opacity-100": planetIsBeingHovered,
+                    "md:opacity-0": showStarView,
+                    "md:opacity-100": !showStarView,
                   }
                 )}
               >
