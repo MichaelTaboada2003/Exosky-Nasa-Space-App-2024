@@ -11,6 +11,18 @@ const App = () => {
   const infoSectionRef = useRef(null);
   const planetSectionRef = useRef(null);
 
+  // Definir un array con planetas, colores y tamaños
+  const planets = [
+    { name: 'Mercury', color: '#b1b1b1', size: '40px' },
+    { name: 'Venus', color: '#e3c099', size: '80px' },
+    { name: 'Earth', color: '#6b93d6', size: '100px' },
+    { name: 'Mars', color: '#d14f31', size: '60px' },
+    { name: 'Jupiter', color: '#e29d62', size: '150px' },
+    { name: 'Saturn', color: '#e6d69f', size: '120px' },
+    { name: 'Uranus', color: '#7ad9dc', size: '90px' },
+    { name: 'Neptune', color: '#466bc9', size: '85px' },
+  ];
+
   // Función para hacer scroll a la sección de planetas
   const scrollToPlanets = () => {
     planetSectionRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -62,10 +74,6 @@ const App = () => {
     return starsArray;
   };
 
-  const planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'ñasodinadsfn', 'dsafadsf'];
-
-
-
   return (
     <div className="body">
       {generateStars()}
@@ -103,11 +111,16 @@ const App = () => {
           {/* Sección 2: Planetas */}
           <section className="planetSection" ref={planetSectionRef}>
             <div className="planetContainer">
-              {/* Muestra el planeta actual basado en el índice */}
-              <div className="planetDisplay">
-                
-                <h3>{planets[currentPlanetIndex]}</h3>
-              </div>
+              {/* Muestra el planeta actual como un círculo */}
+              <div
+                className="planetDisplay"
+                style={{
+                  backgroundColor: planets[currentPlanetIndex].color,
+                  width: planets[currentPlanetIndex].size,
+                  height: planets[currentPlanetIndex].size,
+                  borderRadius: '50%',
+                }}
+              ></div>
 
               {/* Botones para navegar entre los planetas */}
               <div className="planetControls">

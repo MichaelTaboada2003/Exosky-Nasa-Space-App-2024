@@ -109,9 +109,11 @@ body {
 }
 
 .body{
+  height: 100vh;
+  scroll-behavior: smooth;
+  overflow-y: auto;
   background-color: black;
-  margin: 0px;
-  padding: 0px;
+  color: white;
 }
 
 .titleContainer{
