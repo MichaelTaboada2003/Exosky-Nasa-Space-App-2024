@@ -1,8 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import LoadingScreen from './LoadingScreen';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+
+    // Estado para manejar el índice del planeta actual
+    const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
+
+  // Creamos referencias para las secciones
+  const infoSectionRef = useRef(null);
+  const planetSectionRef = useRef(null);
+
+  // Función para hacer scroll a la sección de planetas
+  const scrollToPlanets = () => {
+    planetSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+    // Detecta cuando la infoSection sale del viewport y automáticamente hace scroll a la sección de planetas
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry.isIntersecting) {
+            scrollToPlanets();
+          }
+        },
+        { threshold: 0.1 }
+      );
+  
+      if (infoSectionRef.current) {
+        observer.observe(infoSectionRef.current);
+      }
+  
+      return () => {
+        if (infoSectionRef.current) {
+          observer.unobserve(infoSectionRef.current);
+        }
+      };
+    }, []);
+  
+    // Funciones para navegar entre planetas
+    const handleNextPlanet = () => {
+      setCurrentPlanetIndex((prevIndex) => (prevIndex + 1) % planets.length); // Avanza, y si llega al final vuelve al primero
+    };
+  
+    const handlePreviousPlanet = () => {
+      setCurrentPlanetIndex((prevIndex) =>
+        prevIndex === 0 ? planets.length - 1 : prevIndex - 1
+      ); // Retrocede, y si está en el primero, vuelve al último
+    };
 
   const generateStars = () => {
     const starsArray = [];
@@ -16,38 +62,63 @@ const App = () => {
     return starsArray;
   };
 
+  const planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'ñasodinadsfn', 'dsafadsf'];
+
+
+
   return (
-    <div className='body'>
-      {generateStars()} {}
+    <div className="body">
+      {generateStars()}
       {loading ? (
         <LoadingScreen setLoading={setLoading} />
       ) : (
-        <div className='divInfo'>
-          <div className='titleContainer'>
-            <h1 className='titulazo'>EXOSKY!</h1>
-          </div> {/*Div del titulazo*/}
-          <div className='infoContainer'>
-            <div>
-            <h3>What is an exoplanet?</h3>
-              <p className='textoInfo'>
-            All the planets in our solar system revolve around the Sun. Planets that revolve around stars other than our Sun are known as exoplanets. These exoplanets are difficult to observe directly through telescopes because the brightness of their stars obscures them.
-            Therefore, astronomers use alternative methods to detect and examine these distant planets. They observe the impact that exoplanets have on the stars they orbit to identify them.
-              </p>
-            </div>{/*Div del contenedor del primer parrafo*/}
-            <div>
-              <h3>What is EXOSKY?</h3>
-              <p className='textInfo'>EXOSKY is an educational app designed to give students a unique view of the night sky from the perspective of distant exoplanets. Using data from NASA's Exoplanet Archive, which includes over 5500 discovered exoplanets, the app combines these locations with the latest star catalogs to generate interactive star maps. Students can choose an exoplanet and explore what the sky would look like from that vantage point. The app also allows users to export high-quality images of the star charts, enabling them to visualize, draw, and name their own constellations, sparking creativity and curiosity about the universe.</p>
-            </div>{/*div del contenedor del segundo parrafo*/}
-          </div>{/*infor container*/}
-          <div>
+        <>
+          {/* Sección 1: Título e información */}
+          <section className="infoSection" ref={infoSectionRef}>
+            <div className="titleContainer">
+              <h1 className="titulazo">EXOSKY!</h1>
+            </div>
+            <div className="infoContainer">
+              <div>
+                <h3>What is an exoplanet?</h3>
+                <p className="textoInfo">
+                  All the planets in our solar system revolve around the Sun. Planets that revolve around stars other than our Sun are known as exoplanets. These exoplanets are difficult to observe directly through telescopes because the brightness of their stars obscures them.
+                  <br /><br />
+                  Therefore, astronomers use alternative methods to detect and examine these distant planets. They observe the impact that exoplanets have on the stars they orbit to identify them.
+                </p>
+              </div>
+              <div>
+                <h3>What is EXOSKY?</h3>
+                <p className="textoInfo">
+                  EXOSKY is an educational app designed to give students a unique view of the night sky from the perspective of distant exoplanets. Using data from NASA's Exoplanet Archive, which includes over 5500 discovered exoplanets, the app combines these locations with the latest star catalogs to generate interactive star maps.
+                </p>
+              </div>
+            </div>
+            {/* Botón para hacer scroll a la sección de planetas */}
+            <button onClick={scrollToPlanets} className="scrollButton">
+              Scroll to Planets
+            </button>
+          </section>
 
-          
-            
-          </div> {/*Div del scrolleador del planetas*/}
-        </div> //div info
+          {/* Sección 2: Planetas */}
+          <section className="planetSection" ref={planetSectionRef}>
+            <div className="planetContainer">
+              {/* Muestra el planeta actual basado en el índice */}
+              <div className="planetDisplay">
+                
+                <h3>{planets[currentPlanetIndex]}</h3>
+              </div>
 
+              {/* Botones para navegar entre los planetas */}
+              <div className="planetControls">
+                <button onClick={handlePreviousPlanet}>Previous</button>
+                <button onClick={handleNextPlanet}>Next</button>
+              </div>
+            </div>
+          </section>
+        </>
       )}
-    </div> //div body
+    </div>
   );
 };
 

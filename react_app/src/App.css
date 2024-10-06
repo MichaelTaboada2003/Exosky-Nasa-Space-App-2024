@@ -77,6 +77,8 @@ body {
   height: 100vh;
   overflow: auto; /* Permite el scroll solo si el contenido es más grande que la pantalla */
   position: relative;
+  scroll-snap-type: y mandatory; /* Habilita scroll-snap en el eje y */
+  scroll-behavior: smooth; /* Animación suave al hacer scroll */
 }
 
 .stars {
@@ -119,9 +121,6 @@ body {
 
 }
 
-.divInfo{
-  
-}
 
 .infoContainer {
   margin: 20px;
@@ -144,21 +143,93 @@ body {
   }
 }
 
-/* Otros estilos */
-.divInfo {
-  position: relative; /* Asegura que esté por encima de las estrellas */
-  color: white;
+/* Sección de información (primer pantalla completa) */
+.infoSection {
+  height: 100vh; /* Ocupará el 100% de la pantalla */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra el contenido verticalmente */
+  align-items: center;
+  scroll-snap-align: start; /* Marca el inicio de la sección para snap */
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .titulazo {
   color: white;
   font-size: 48px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.textoInfo {
+.infoContainer {
   color: white;
-  font-size: 18px;
-  padding: 20px;
   text-align: justify;
+  width: 80%;
+}
+
+.textoInfo {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Sección de planetas (segunda pantalla completa) */
+.planetSection {
+  height: 100vh; /* Ocupará el 100% de la pantalla */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start; /* Marca el inicio de la sección para snap */
+}
+
+/* Contenedor con scroll horizontal para planetas */
+.planetContainer {
+  display: flex; /* Flexbox para alinear los planetas en fila */
+  overflow-x: auto; /* Scroll horizontal */
+  white-space: nowrap; /* Evita que los planetas salten a la siguiente línea */
+  padding: 10px;
+  margin-top: 20px;
+  height: 60%;
+}
+
+.planet {
+  flex: 0 0 auto; /* Evita que los planetas se reduzcan de tamaño */
+  width: 150px;
+  height: 150px;
+  margin-right: 20px;
+  background-color: #1e90ff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+/* Efecto de parpadeo en las estrellas */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Secciones */
+.infoSection, .planetSection {
+  height: 100vh; /* Cada sección ocupa el 100% del alto de la pantalla */
+  scroll-snap-align: start; /* Hace que se "enganche" al inicio de la pantalla */
+}
+
+.infoContainer {
+  text-align: center;
+  color: white;
+}
+
+.planetContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
