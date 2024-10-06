@@ -15,16 +15,18 @@ const App = () => {
 
   // Definir un array con planetas, colores y tamaños
   const planets = [
-    { name: "Mercury", color: "#b1b1b1" },
-    { name: "Venus", color: "#e3c099" },
-    { name: "Earth", color: "#6b93d6" },
-    { name: "Mars", color: "#d14f31" },
-    { name: "Jupiter", color: "#e29d62" },
-    { name: "Saturn", color: "#e6d69f" },
-    { name: "Uranus", color: "#7ad9dc" },
-    { name: "Neptune", color: "#466bc9" },
+    { name: "Mercury", discoveryYear: '2000', orbitPeriod: '30', planetRaius: '50', coo: 'Ra:7 Dec:8', distance: '400', V: '40', Ks: '3444', gaiaMagnitude: '400', color: "#b1b1b1"},
+    { name: "Venus", discoveryYear: '2000', orbitPeriod: '30', planetRaius: '50', coo: 'Ra:7 Dec:8', distance: '400', V: '40', Ks: '3444', gaiaMagnitude: '400', color: "#e3c099"},
+    { name: "Earth", discoveryYear: '2000', orbitPeriod: '30', planetRaius: '50', coo: 'Ra:7 Dec:8', distance: '400', V: '40', Ks: '3444', gaiaMagnitude: '400', color: "#6b93d6"},
+    { name: "Mars", discoveryYear: '2000', orbitPeriod: '30', planetRaius: '50', coo: 'Ra:7 Dec:8', distance: '400', V: '40', Ks: '3444', gaiaMagnitude: '400', color: "#d14f31"},
+    { name: "Jupiter", discoveryYear: '2000', orbitPeriod: '30', planetRaius: '50', coo: 'Ra:7 Dec:8', distance: '400', V: '40', Ks: '3444', gaiaMagnitude: '400', color: "#e29d62"},
+    { name: "Saturn", discoveryYear: '2000', orbitPeriod: '30', planetRaius: '50', coo: 'Ra:7 Dec:8', distance: '400', V: '40', Ks: '3444', gaiaMagnitude: '400', color: "#e6d69f"},
+    { name: "Uranus", discoveryYear: '2000', orbitPeriod: '30', planetRaius: '50', coo: 'Ra:7 Dec:8', distance: '400', V: '40', Ks: '3444', gaiaMagnitude: '400', color: "#7ad9dc"},
+    { name: "Neptune", discoveryYear: '2000', orbitPeriod: '30', planetRaius: '50', coo: 'Ra:7 Dec:8', distance: '400', V: '40', Ks: '3444', gaiaMagnitude: '400', color: "#466bc9"},
   ];
 
+  const keysNames = ['Name: ', 'Discovery year: ', 'Orbit period: ', 'Planet radius: ', 'Coordinates: ', 'Distance: ', 'V: ', 'Ks: ', 'Gaia magnitude: '];
+  const keys = Object.keys(planets[0]);
   const handleSceneTransition = () => {
     setIsTransitioning(true);
     setTimeout(() => {
@@ -202,9 +204,9 @@ const App = () => {
                 </div>
 
                 <div className="flex flex-wrap mt-2 gap-2 p-4">
-                  {Array.from({ length: 12 }).map(() => (
+                  {Array.from({ length: 9 }).map((_, i) => (
                     <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
-                      Lorem
+                      {keysNames[i]}{planets[currentPlanetIndex][keys[i]]}
                     </div>
                   ))}
                 </div>
