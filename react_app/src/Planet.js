@@ -63,14 +63,24 @@ function StarView({ stars, onClose }) {
 
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
+  
+  const raMin = Math.min(...stars.map((s) => s.ra));
+  const raMax = Math.max(...stars.map((s) => s.ra));
+  const decMin = Math.min(...stars.map((s) => s.dec));
+  const decMax = Math.max(...stars.map((s) => s.dec));
 
   const convertToScreenCoordinates = (ra, dec) => {
-    const raRadians = (ra * Math.PI) / 180;
-    const decRadians = (dec * Math.PI) / 180;
+    const amplificationFactor = 10;
 
-    const r = (2 + Math.cos(decRadians)) / 3;
-    const x = r * Math.cos(raRadians);
-    const y = r * Math.sin(raRadians);
+    const normalizedRA = ((ra - raMin) / (raMax - raMin)) * amplificationFactor;
+    const normalizedDec =
+      ((dec - decMin) / (decMax - decMin)) * amplificationFactor;
+
+    const raRadians = (normalizedRA * Math.PI) / 2;
+    const decRadians = (normalizedDec * Math.PI) / 2;
+
+    const x = Math.cos(raRadians);
+    const y = Math.sin(decRadians);
 
     const margin = {
       x: dimensions.width * 0.1,
@@ -103,7 +113,7 @@ function StarView({ stars, onClose }) {
           return (
             <div
               key={index}
-              className="absolute rounded-full bg-white size-3"
+              className="absolute rounded-full bg-white size-1 shadow-[0_0_5px_3px_rgba(255,255,255,0.6)] animate-pulse"
               style={{
                 left: `${coords.x}%`,
                 top: `${coords.y}%`,
