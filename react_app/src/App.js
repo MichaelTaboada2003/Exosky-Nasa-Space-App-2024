@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import LoadingScreen from "./LoadingScreen";
 import { SpaceView } from "./Planet";
-import { Sun } from "./sun";
 import { cn } from "./utils";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
@@ -9,186 +8,80 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [showPlanets, setShowPlanets] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
-  const [currentSunIndex, setCurrentSunIndex] = useState(0);
   const [showStarView, setShowStarView] = useState(false);
-  const [SunIsBeingHovered, setSunIsBeingHovered] = useState(false);
+
+  const [planets, setPlanets] = useState([]);
+  const [planetInfo, setPlanetInfo] = useState();
+  const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
+  const [planetStars, setPlanetStars] = useState([]);
 
   const infoSectionRef = useRef(null);
   const planetSectionRef = useRef(null);
 
-  // Definir un array con planetas, colores y tamaños
-  const planets = [
-    {
-      name: "Mercury",
-      discoveryYear: "2000",
-      orbitPeriod: "30",
-      planetRaius: "50",
-      coo: "Ra:7 Dec:8",
-      distance: "400",
-      V: "40",
-      Ks: "3444",
-      gaiaMagnitude: "400",
-      color: "#b1b1b1",
-    },
-    {
-      name: "Venus",
-      discoveryYear: "2000",
-      orbitPeriod: "30",
-      planetRaius: "50",
-      coo: "Ra:7 Dec:8",
-      distance: "400",
-      V: "40",
-      Ks: "3444",
-      gaiaMagnitude: "400",
-      color: "#e3c099",
-    },
-    {
-      name: "Earth",
-      discoveryYear: "2000",
-      orbitPeriod: "30",
-      planetRaius: "50",
-      coo: "Ra:7 Dec:8",
-      distance: "400",
-      V: "40",
-      Ks: "3444",
-      gaiaMagnitude: "400",
-      color: "#6b93d6",
-    },
-    {
-      name: "Mars",
-      discoveryYear: "2000",
-      orbitPeriod: "30",
-      planetRaius: "50",
-      coo: "Ra:7 Dec:8",
-      distance: "400",
-      V: "40",
-      Ks: "3444",
-      gaiaMagnitude: "400",
-      color: "#d14f31",
-    },
-    {
-      name: "Jupiter",
-      discoveryYear: "2000",
-      orbitPeriod: "30",
-      planetRaius: "50",
-      coo: "Ra:7 Dec:8",
-      distance: "400",
-      V: "40",
-      Ks: "3444",
-      gaiaMagnitude: "400",
-      color: "#e29d62",
-    },
-    {
-      name: "Saturn",
-      discoveryYear: "2000",
-      orbitPeriod: "30",
-      planetRaius: "50",
-      coo: "Ra:7 Dec:8",
-      distance: "400",
-      V: "40",
-      Ks: "3444",
-      gaiaMagnitude: "400",
-      color: "#e6d69f",
-    },
-    {
-      name: "Uranus",
-      discoveryYear: "2000",
-      orbitPeriod: "30",
-      planetRaius: "50",
-      coo: "Ra:7 Dec:8",
-      distance: "400",
-      V: "40",
-      Ks: "3444",
-      gaiaMagnitude: "400",
-      color: "#7ad9dc",
-    },
-    {
-      name: "Neptune",
-      discoveryYear: "2000",
-      orbitPeriod: "30",
-      planetRaius: "50",
-      coo: "Ra:7 Dec:8",
-      distance: "400",
-      V: "40",
-      Ks: "3444",
-      gaiaMagnitude: "400",
-      color: "#466bc9",
-    },
-  ];
+  useEffect(() => {
+    fetch("http://localhost:8000/exoplanets", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
+      })
+      .then((data) => {
+        setPlanets(Array.from(new Set(data)));
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
-  const keysNames = [
-    "Name: ",
-    "Discovery year: ",
-    "Orbit period: ",
-    "Planet radius: ",
-    "Coordinates: ",
-    "Distance: ",
-    "V: ",
-    "Ks: ",
-    "Gaia magnitude: ",
-  ];
+  useEffect(() => {
+    if (!planets) return;
 
-  const keys = Object.keys(planets[0]);
+    fetch(`http://localhost:8000/exoplanet/${planets[currentPlanetIndex]}`)
+      .then((response) => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
+      })
+      .then((data) => setPlanetInfo(data));
+  }, [currentPlanetIndex, planets]);
 
-  const suns = [
-    {
-      temperture: "500k",
-      stellarRadius: "68 solar radius",
-      stellarMass: "100 solar mass",
-      name: "11 Com",
-    },
-    {
-      temperture: "500k",
-      stellarRadius: "68 solar radius",
-      stellarMass: "100 solar mass",
-      name: "11 Com",
-    },
-    {
-      temperture: "500k",
-      stellarRadius: "68 solar radius",
-      stellarMass: "100 solar mass",
-      name: "11 Com",
-    },
-    {
-      temperture: "500k",
-      stellarRadius: "68 solar radius",
-      stellarMass: "100 solar mass",
-      name: "11 Com",
-    },
-    {
-      temperture: "500k",
-      stellarRadius: "68 solar radius",
-      stellarMass: "100 solar mass",
-      name: "11 Com",
-    },
-    {
-      temperture: "500k",
-      stellarRadius: "68 solar radius",
-      stellarMass: "100 solar mass",
-      name: "11 Com",
-    },
-    {
-      temperture: "500k",
-      stellarRadius: "68 solar radius",
-      stellarMass: "100 solar mass",
-      name: "11 Com",
-    },
-  ];
+  useEffect(() => {
+    if (!planets) return;
 
-  const keysNamesSuns = [
-    "Name: ",
-    "Discovery year: ",
-    "Orbit period: ",
-    "Planet radius: ",
-    "Coordinates: ",
-    "Distance: ",
-    "V: ",
-    "Ks: ",
-    "Gaia magnitude: ",
-  ];
+    const planetName = planets[currentPlanetIndex];
 
-  const keysSuns = Object.keys(suns[0]);
+    if (!planetName) return;
+
+    fetch(
+      `http://localhost:8000/exoplanet/${encodeURIComponent(
+        planetName
+      )}/nearest_stars`
+    )
+      .then((response) => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
+      })
+      .then((data) => setPlanetStars(data))
+      .catch((error) => console.error(error));
+  }, [currentPlanetIndex, planets]);
+
+  function handleSearch(event) {
+    event.preventDefault();
+    const { elements } = event.currentTarget;
+    const inputElement = elements.namedItem("input");
+    const planetsRegistered = planets.filter(
+      (element) =>
+        element.toLowerCase() === inputElement.value.toString().toLowerCase()
+    );
+
+    if (planetsRegistered.length === 0) {
+      inputElement.value = "";
+      return;
+    }
+
+    setCurrentPlanetIndex(planets.indexOf(planetsRegistered[0]));
+  }
 
   const handleSceneTransition = () => {
     setIsTransitioning(true);
@@ -209,17 +102,6 @@ const App = () => {
     ); // Retrocede, y si está en el primero, vuelve al último
   };
 
-  // Funciones para navegar entre soles
-  const handleNextSun = () => {
-    setCurrentSunIndex((prevIndex) => (prevIndex + 1) % suns.length); // Avanza, y si llega al final vuelve al primero
-  };
-
-  const handlePreviousSun = () => {
-    setCurrentSunIndex((prevIndex) =>
-      prevIndex === 0 ? suns.length - 1 : prevIndex - 1
-    ); // Retrocede, y si está en el primero, vuelve al último
-  };
-
   const generateStars = () => {
     const starsArray = [];
     for (let i = 0; i < 100; i++) {
@@ -231,10 +113,6 @@ const App = () => {
     }
     return starsArray;
   };
-
-  useEffect(() => {
-    console.log(SunIsBeingHovered);
-  }, [SunIsBeingHovered]);
 
   return (
     <div className="min-h-screen relative">
@@ -318,12 +196,10 @@ const App = () => {
           >
             <div className="w-full h-full md:w-4/5 md:h-4/5 flex flex-col items-center justify-center gap-12 overflow-x-hidden relative">
               <SpaceView
-                bgColor={planets[currentPlanetIndex].color}
                 showStarView={showStarView}
                 setShowStarView={setShowStarView}
+                planetStars={planetStars}
               />
-
-              <Sun setSunIsBeingHovered={setSunIsBeingHovered} />
 
               <div className="flex items-center gap-4 md:gap-8">
                 <button
@@ -335,7 +211,7 @@ const App = () => {
 
                 <div>
                   <span className="font-bold text-2xl md:text-3xl">
-                    {planets[currentPlanetIndex].name}
+                    {planetInfo && planetInfo.name}
                   </span>
                 </div>
 
@@ -347,7 +223,7 @@ const App = () => {
                 </button>
               </div>
 
-              <div /*Div de informacion del planeta*/
+              <div
                 className={cn(
                   "w-full md:w-1/3 p-4 my-5",
                   "md:absolute md:top-0 md:left-0",
@@ -359,52 +235,49 @@ const App = () => {
                 )}
               >
                 <div className="w-full sm:flex sm:justify-center px-4 md:px-0">
-                  <input
-                    className="w-full px-4 py-2 rounded-md text-black bg-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
-                    placeholder="Buscar ..."
-                  />
+                  <form className="w-full" onSubmit={handleSearch}>
+                    <input
+                      className="w-full px-4 py-2 rounded-md text-black bg-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                      placeholder="Search ..."
+                      name="input"
+                      autoComplete="off"
+                    />
+                  </form>
                 </div>
 
                 <div className="mt-8 mx-4">
                   <div className="text-2xl font-bold">
-                    <span>{planets[currentPlanetIndex].name}</span>
+                    <span>{planetInfo && planetInfo.name}</span>
                   </div>
                 </div>
-
-                <div className="flex flex-wrap mt-2 gap-2 p-4">
-                  {Array.from({ length: 9 }).map((_, i) => (
+                {planetInfo && (
+                  <div className="flex flex-wrap mt-2 gap-2 p-4">
                     <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
-                      {keysNames[i]}
-                      {planets[currentPlanetIndex][keys[i]]}
+                      Coordinates: {planetInfo.coordinates}
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              <div
-                className={cn(
-                  "w-full md:w-1/3 p-4 my-5",
-                  "md:absolute md:top-0 md:right-0",
-                  "md:transition-opacity md:duration-300", {
-                    "opacity-0": !SunIsBeingHovered,
-                    "opacity-100": SunIsBeingHovered
-                  }
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      Hoststar: {planetInfo.hoststar}
+                    </div>
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      Base Mase: {planetInfo.pl_bmasse}
+                    </div>
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      V Mag: {planetInfo.v_mag}
+                    </div>
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      Ks Mag: {planetInfo.ks_mag}
+                    </div>
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      Gaia Mag: {planetInfo.gaia_mag}
+                    </div>
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      Spectral Type: {planetInfo.spectral_type}
+                    </div>
+                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
+                      Orbital Period: {planetInfo.orbital_period}
+                    </div>
+                  </div>
                 )}
-              >
-                <div className="mt-8 mx-4">
-                  <div className="text-2xl font-bold">
-                    <span>{suns[currentSunIndex].name}</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap mt-2 gap-2 p-4">
-                  {Array.from({ length: 9 }).map((_, i) => (
-                    <div className="px-3 py-1 text-sm font-medium text-gray-900 bg-white rounded-full">
-                      {keysNamesSuns[i]}
-                      {suns[currentSunIndex][keysSuns[i]]}
-                    </div>
-                  ))}
-                </div>
               </div>
 
               <div className="mt-2 flex gap-2 opacity-100 absolute bottom-12 md:bottom-0 left-8 md:left-4">

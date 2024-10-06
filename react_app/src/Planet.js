@@ -1,36 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 
 export function SpaceView(props) {
-  const sampleStars = [
-    { name: "Sirius", ra: "06h 45m", dec: "-16° 43'", magnitude: -1.46 },
-    { name: "Vega", ra: "18h 37m", dec: "+38° 47'", magnitude: 0.03 },
-    { name: "Arcturus", ra: "14h 15m", dec: "+19° 11'", magnitude: -0.04 },
-    {
-      name: "Alpha Centauri",
-      ra: "14h 39m",
-      dec: "-60° 50'",
-      magnitude: -0.27,
-    },
-    { name: "Capella", ra: "05h 16m", dec: "+45° 59'", magnitude: 0.08 },
-    { name: "Rigel", ra: "05h 14m", dec: "-08° 12'", magnitude: 0.13 },
-    { name: "Procyon", ra: "07h 39m", dec: "+05° 13'", magnitude: 0.34 },
-    { name: "Achernar", ra: "01h 37m", dec: "-57° 14'", magnitude: 0.46 },
-    { name: "Betelgeuse", ra: "05h 55m", dec: "+07° 24'", magnitude: 0.42 },
-    { name: "Polaris", ra: "02h 31m", dec: "+89° 15'", magnitude: 1.97 },
-  ];
-
   return (
     <div className="w-full h-screen relative">
       {!props.showStarView ? (
         <div className="flex flex-col items-center justify-center h-full">
-          <Planet
-            bgColor={props.bgColor}
-            setShowStarView={props.setShowStarView}
-          />
+          <Planet setShowStarView={props.setShowStarView} />
         </div>
       ) : (
         <StarView
-          stars={sampleStars}
+          stars={props.planetStars}
           onClose={() => props.setShowStarView(false)}
         />
       )}
@@ -54,7 +33,7 @@ export function Planet(props) {
       <div
         className="size-96 rounded-full transition-transform duration-300 ease-linear"
         style={{
-          backgroundColor: props.bgColor,
+          backgroundColor: "#fff",
           transform: `rotateY(${rotation}deg)`,
           backgroundImage:
             "linear-gradient(45deg, rgba(0,0,0,0.2) 0%, transparent 50%, rgba(255,255,255,0.2) 100%)",
@@ -86,13 +65,8 @@ function StarView({ stars, onClose }) {
   }, []);
 
   const convertToScreenCoordinates = (ra, dec) => {
-    const hours = ra.split("h ")[0];
-    const minutes = ra.split("h ")[1].toString().split("m")[0];
-    const raRadians =
-      ((parseInt(hours) + parseInt(minutes) / 60) / 24) * 2 * Math.PI;
-
-    const decDegrees = parseFloat(dec.replace("°", ""));
-    const decRadians = (decDegrees * Math.PI) / 180;
+    const raRadians = (ra * Math.PI) / 180;
+    const decRadians = (dec * Math.PI) / 180;
 
     const r = (2 + Math.cos(decRadians)) / 3;
     const x = r * Math.cos(raRadians);
@@ -125,27 +99,16 @@ function StarView({ stars, onClose }) {
       {dimensions.width > 0 &&
         stars.map((star, index) => {
           const coords = convertToScreenCoordinates(star.ra, star.dec);
-          const size = Math.max(2, 8 - star.magnitude * 1.5);
-
-          const brightness = Math.max(0.3, 1 - star.magnitude * 0.2);
 
           return (
             <div
               key={index}
-              className="absolute rounded-full bg-white"
+              className="absolute rounded-full bg-white size-3"
               style={{
                 left: `${coords.x}%`,
                 top: `${coords.y}%`,
-                width: `${size}px`,
-                height: `${size}px`,
-                transform: "translate(-50%, -50%)",
-                boxShadow: `0 0 ${size * 2}px ${
-                  size / 2
-                }px rgba(255,255,255,${brightness})`,
-                opacity: brightness,
                 transition: "all 0.3s ease-in-out",
               }}
-              title={`${star.name} (RA: ${star.ra}, Dec: ${star.dec})`}
             />
           );
         })}
