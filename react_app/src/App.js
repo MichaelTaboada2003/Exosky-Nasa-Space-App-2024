@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import LoadingScreen from "./LoadingScreen";
-import { Planet } from "./Planet";
+import { SpaceView } from "./Planet";
 import { cn } from "./utils";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
@@ -239,7 +239,7 @@ const App = () => {
             )}
           >
             <div className="w-full h-full md:w-4/5 md:h-4/5 flex flex-col items-center justify-center gap-12 overflow-x-hidden relative">
-              <Planet
+              <SpaceView
                 bgColor={planets[currentPlanetIndex].color}
                 setPlanetIsBeingHovered={setPlanetIsBeingHovered}
               />
