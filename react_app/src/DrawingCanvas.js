@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
-import { cn } from './utils';
+import { cn } from "./utils";
 
 export const DrawingCanvas = ({ parentRef, handleExportSVG, showStarView }) => {
   const canvasRef = useRef(null);
@@ -12,9 +12,6 @@ export const DrawingCanvas = ({ parentRef, handleExportSVG, showStarView }) => {
       canvasRef.current.undo();
     }
   };
-
-  //funcion para exportar el svg
-  handleExportSVG();
 
   useEffect(() => {
     const resizeCanvas = () => {
@@ -30,7 +27,7 @@ export const DrawingCanvas = ({ parentRef, handleExportSVG, showStarView }) => {
 
     window.addEventListener("resize", resizeCanvas);
     return () => window.removeEventListener("resize", resizeCanvas);
-  }, []);
+  }, [parentRef]);
 
   return (
     <>
