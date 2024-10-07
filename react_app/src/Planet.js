@@ -16,6 +16,7 @@ export function SpaceView(props) {
           stars={props.planetStars}
           setShowStarView={props.setShowStarView}
           handleExportSVG={props.handleExportSVG}
+          showStarView={props.showStarView}
         />
       )}
     </div>
@@ -116,6 +117,7 @@ function StarView(props) {
       <DrawingCanvas
         parentRef={containerRef}
         handleExportSVG={props.handleExportSVG}
+        showStarView={props.setShowStarView}
       />
 
       <div className="absolute bottom-4 left-4 text-white/50 text-sm select-none">
