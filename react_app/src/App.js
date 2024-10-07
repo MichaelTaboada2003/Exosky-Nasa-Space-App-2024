@@ -100,6 +100,7 @@ const App = () => {
   const handlePreviousPlanet = () => {
     setCurrentPlanetIndex((prevIndex) =>
       prevIndex === 0 ? planets.length - 1 : prevIndex - 1
+      
     ); // Retrocede, y si está en el primero, vuelve al último
   };
 

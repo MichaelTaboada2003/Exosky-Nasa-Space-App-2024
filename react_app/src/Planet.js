@@ -37,9 +37,9 @@ export function Planet(props) {
   }, []);
 
   return (
-    <div className="relative perspective-[1000px]">
+    <div className="relative perspective-[1000px]" >
       {imageURL && (
-        <img src={`/${imageURL}`} className="size-80 rounded-full" />
+        <img src={`/${imageURL}`} className="size-80 rounded-full" onClick={() => props.showStartView(true)}/>
       )}
     </div>
   );
