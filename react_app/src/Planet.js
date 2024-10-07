@@ -15,6 +15,7 @@ export function SpaceView(props) {
         <StarView
           stars={props.planetStars}
           setShowStarView={props.setShowStarView}
+          handleExportSVG={props.handleExportSVG}
         />
       )}
     </div>
@@ -112,7 +113,10 @@ function StarView(props) {
           );
         })}
 
-      <DrawingCanvas parentRef={containerRef} />
+      <DrawingCanvas
+        parentRef={containerRef}
+        handleExportSVG={props.handleExportSVG}
+      />
 
       <div className="absolute bottom-4 left-4 text-white/50 text-sm select-none">
         {`${Math.round(dimensions.width)} x ${Math.round(dimensions.height)}px`}
