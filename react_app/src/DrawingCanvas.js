@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
+import { cn } from './utils';
 
 export const DrawingCanvas = ({ parentRef, handleExportSVG, showStarView }) => {
   const canvasRef = useRef(null);
