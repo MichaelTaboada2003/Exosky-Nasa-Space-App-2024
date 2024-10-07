@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
+import { handleExportSVG } from App
+import App from "./App";
 
 export const DrawingCanvas = ({ parentRef }) => {
   const canvasRef = useRef(null);
@@ -10,6 +12,9 @@ export const DrawingCanvas = ({ parentRef }) => {
       if (canvasRef.current) {
         canvasRef.current.undo(); // Llama a la función undo()
       }}
+
+      //funcion para exportar el svg
+      handleExportSVG();
 
   useEffect(() => {
     const resizeCanvas = () => {

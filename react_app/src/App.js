@@ -4,6 +4,7 @@ import { SpaceView } from "./Planet";
 import { cn } from "./utils";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
+
 const planetImages = [
   "planeta1.png",
   "planeta2.png",
@@ -11,6 +12,29 @@ const planetImages = [
   "planeta4.png",
   "planeta5.png",
 ];
+
+const handleExportSVG = () => {
+  if (canvasRef.current) {
+    canvasRef.current
+      .exportSvg()
+      .then((data) => {
+        const svgBlob = new Blob([data], { type: 'image/svg+xml' });
+        const svgUrl = URL.createObjectURL(svgBlob);
+
+        // Crear un enlace de descarga
+        const downloadLink = document.createElement('a');
+        downloadLink.href = svgUrl;
+        downloadLink.download = 'canvas_drawing.svg';
+        downloadLink.click();
+
+        // Liberar URL
+        URL.revokeObjectURL(svgUrl);
+      })
+      .catch((error) => {
+        console.log('Error exporting SVG: ', error);
+      });
+  }
+};
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -236,6 +260,21 @@ const App = () => {
                   <MdKeyboardArrowRight />
                 </button>
               </div>
+
+              <button
+              className={cn(
+                'rounded-md border px-6 py-2 right-0 absolute bottom-0',
+                'border-gray-50/30',
+                'text-xl',
+                {
+                  'md:opacity-0': !showStarView,
+                  'md:opacity-100': showStarView
+                }
+              )}
+              onClick={handleExportSVG}
+              >
+                Export your constelation  
+              </button>
 
               <div
                 className={cn(
