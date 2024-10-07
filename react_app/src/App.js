@@ -10,6 +10,11 @@ const planetImages = [
   "planeta3.png",
   "planeta4.png",
   "planeta5.png",
+  "planeta6.png",
+  "planeta7.png",
+  "planeta8.png",
+  "planeta9.png",
+  "planeta10.png",
 ];
 
 const handleExportSVG = (canvasRef) => {
