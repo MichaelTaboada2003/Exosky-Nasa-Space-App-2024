@@ -19,7 +19,7 @@ export function SpaceView(props) {
       ) : (
         <StarView
           stars={props.planetStars}
-          onClose={() => props.setShowStarView(false)}
+          setShowStarView={props.setShowStarView}
         />
       )}
     </div>
@@ -33,13 +33,17 @@ export function Planet(props) {
     const newImageURL =
       planetImages[Math.floor(Math.random() * planetImages.length)];
 
-    setImageURL(newImageURL)
+    setImageURL(newImageURL);
   }, []);
 
   return (
-    <div className="relative perspective-[1000px]" >
+    <div className="relative perspective-[1000px]">
       {imageURL && (
-        <img src={`/${imageURL}`} className="size-80 rounded-full" onClick={() => props.showStartView(true)}/>
+        <img
+          src={`/${imageURL}`}
+          className="size-80 rounded-full"
+          onClick={() => props.setShowStarView(true)}
+        />
       )}
     </div>
   );
