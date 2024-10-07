@@ -2,8 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import LoadingScreen from "./LoadingScreen";
 import { SpaceView } from "./Planet";
 import { cn } from "./utils";
-import DrawingCanvas from "./DrawingCanvas";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+
+const planetImages = [
+  "planeta1.png",
+  "planeta2.png",
+  "planeta3.png",
+  "planeta4.png",
+  "planeta5.png",
+];
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -15,6 +22,7 @@ const App = () => {
   const [planetInfo, setPlanetInfo] = useState();
   const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
   const [planetStars, setPlanetStars] = useState([]);
+  const [planetImageIndex, setPlanetImageIndex] = useState(0);
 
   const infoSectionRef = useRef(null);
   const planetSectionRef = useRef(null);
@@ -92,16 +100,20 @@ const App = () => {
     }, 500);
   };
 
-  // Funciones para navegar entre planetas
   const handleNextPlanet = () => {
-    setCurrentPlanetIndex((prevIndex) => (prevIndex + 1) % planets.length); // Avanza, y si llega al final vuelve al primero
+    setCurrentPlanetIndex((prevIndex) => (prevIndex + 1) % planets.length);
+
+    setPlanetImageIndex((prevIndex) => (prevIndex + 1) % planetImages.length);
   };
 
   const handlePreviousPlanet = () => {
     setCurrentPlanetIndex((prevIndex) =>
       prevIndex === 0 ? planets.length - 1 : prevIndex - 1
-      
-    ); // Retrocede, y si está en el primero, vuelve al último
+    );
+
+    setPlanetImageIndex((prevIndex) =>
+      prevIndex === 0 ? planetImages.length - 1 : prevIndex - 1
+    );
   };
 
   const generateStars = () => {
@@ -201,6 +213,7 @@ const App = () => {
                 showStarView={showStarView}
                 setShowStarView={setShowStarView}
                 planetStars={planetStars}
+                imageURL={`/${planetImages[planetImageIndex]}`}
               />
               <div className="flex items-center gap-4 md:gap-8">
                 <button

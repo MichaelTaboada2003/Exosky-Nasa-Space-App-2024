@@ -1,20 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import { DrawingCanvas } from "./DrawingCanvas";
 
-const planetImages = [
-  "planeta1.png",
-  "planeta2.png",
-  "planeta3.png",
-  "planeta4.png",
-  "planeta5.png",
-];
-
 export function SpaceView(props) {
   return (
     <div className="w-full h-screen relative">
       {!props.showStarView ? (
         <div className="flex flex-col items-center justify-center h-full">
-          <Planet setShowStarView={props.setShowStarView} />
+          <Planet
+            setShowStarView={props.setShowStarView}
+            imageURL={props.imageURL}
+          />
         </div>
       ) : (
         <StarView
@@ -27,20 +22,11 @@ export function SpaceView(props) {
 }
 
 export function Planet(props) {
-  const [imageURL, setImageURL] = useState();
-
-  useEffect(() => {
-    const newImageURL =
-      planetImages[Math.floor(Math.random() * planetImages.length)];
-
-    setImageURL(newImageURL);
-  }, []);
-
   return (
     <div className="relative perspective-[1000px]">
-      {imageURL && (
+      {props.imageURL && (
         <img
-          src={`/${imageURL}`}
+          src={props.imageURL}
           className="size-80 rounded-full"
           onClick={() => props.setShowStarView(true)}
         />
@@ -49,7 +35,7 @@ export function Planet(props) {
   );
 }
 
-function StarView({ stars, onClose }) {
+function StarView(props) {
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
@@ -69,10 +55,10 @@ function StarView({ stars, onClose }) {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  const raMin = Math.min(...stars.map((s) => s.ra));
-  const raMax = Math.max(...stars.map((s) => s.ra));
-  const decMin = Math.min(...stars.map((s) => s.dec));
-  const decMax = Math.max(...stars.map((s) => s.dec));
+  const raMin = Math.min(...props.stars.map((s) => s.ra));
+  const raMax = Math.max(...props.stars.map((s) => s.ra));
+  const decMin = Math.min(...props.stars.map((s) => s.dec));
+  const decMax = Math.max(...props.stars.map((s) => s.dec));
 
   const convertToScreenCoordinates = (ra, dec) => {
     const amplificationFactor = 10;
@@ -110,7 +96,7 @@ function StarView({ stars, onClose }) {
       ref={containerRef}
     >
       {dimensions.width > 0 &&
-        stars.map((star, index) => {
+        props.stars.map((star, index) => {
           const coords = convertToScreenCoordinates(star.ra, star.dec);
 
           return (
@@ -133,7 +119,7 @@ function StarView({ stars, onClose }) {
       </div>
 
       <button
-        onClick={onClose}
+        onClick={() => props.setShowStarView(false)}
         className="absolute top-8 right-4 bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20 select-none"
       >
         Go back to planet
