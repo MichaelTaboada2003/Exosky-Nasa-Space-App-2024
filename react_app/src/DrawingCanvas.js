@@ -4,6 +4,12 @@ import { ReactSketchCanvas } from "react-sketch-canvas";
 export const DrawingCanvas = ({ parentRef }) => {
   const canvasRef = useRef(null);
   const [canvasSize, setCanvasSize] = useState({ width: 100, height: 100 });
+    // Función para manejar el click derecho y llamar a undo()
+    const handleContextMenu = (event) => {
+      event.preventDefault(); // Previene el menú contextual por defecto
+      if (canvasRef.current) {
+        canvasRef.current.undo(); // Llama a la función undo()
+      }}
 
   useEffect(() => {
     const resizeCanvas = () => {
@@ -22,7 +28,9 @@ export const DrawingCanvas = ({ parentRef }) => {
   }, []);
 
   return (
-    <ReactSketchCanvas
+    <div className="w-full h-full absolute top-0 left-0 pointer-events-auto" onContextMenu={handleContextMenu} // Evento para detectar click derecho
+    style={{ border: '1px solid black', width: '500px', height: '500px' }}>
+      <ReactSketchCanvas
       ref={canvasRef}
       width={canvasSize.width}
       height={canvasSize.height}
@@ -30,8 +38,9 @@ export const DrawingCanvas = ({ parentRef }) => {
       strokeColor="white"
       backgroundImage="none"
       exportWithBackgroundImage={false}
-      className="absolute top-0 left-0 pointer-events-auto"
     />
+    </div>
+    
   );
 };
 
