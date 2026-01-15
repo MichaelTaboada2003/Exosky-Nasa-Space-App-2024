@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import "./App.css";
 
 // ==================== CONSTANTS ====================
-const API_BASE = "http://localhost:8000";
+// ==================== CONSTANTS ====================
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 const PLANET_IMAGES = [
   "planeta1.png", "planeta2.png", "planeta3.png", "planeta4.png",
