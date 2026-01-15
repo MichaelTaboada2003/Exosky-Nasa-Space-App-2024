@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Montar los datos csv para persistencia o actualizaciones fáciles
+      - ./backend/psc.csv:/app/psc.csv
+      - ./backend/hygdata_v41.csv:/app/hygdata_v41.csv
+    environment:
+      - PORT=8000
+
+  frontend:
+    build:
+      context: ./react_app
+      args:
+        # Aquí puedes poner la URL de tu túnel si la conoces al momento de construir
+        # O dejarla vacía para usar el localhost por defecto del código
+        - REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:8000}
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
