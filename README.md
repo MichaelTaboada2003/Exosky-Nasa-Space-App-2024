@@ -1,11 +1,72 @@
-# Exosky-Nasa-Space-App-2024
+# 🌌 EXOSKY - NASA Space Apps Challenge 2024
 
-The architecture of our application is based on a Python backend, which facilitates the management and visualization of astronomical data. This backend is built using FastAPI, a modern, high-performance framework that enables us to handle asynchronous requests efficiently. By leveraging FastAPI, we ensure that our application can process data requests swiftly, enhancing the user experience by providing real-time updates and smooth interactions.
+**EXOSKY** es una plataforma interactiva diseñada para visualizar el cielo nocturno desde la perspectiva de miles de exoplanetas conocidos. Este proyecto fue desarrollado para el **NASA Space Apps Challenge 2024**, combinando datos científicos reales con una interfaz moderna y atractiva.
 
-To create a comprehensive astronomical experience, we have combined the database of over 5,500 exoplanets with the latest information on stars from the Gaia mission. This integration allows us to offer users a rich dataset from which they can explore various celestial configurations. The application accurately displays the sky as it would appear from the surface of these exoplanets, taking into account factors such as distance and brightness of nearby stars.
+![Landing Page](docs/images/landing.png)
 
-Moreover, we have designed our tool to be highly interactive. Users can not only view the celestial bodies but also customize their experience by drawing their own constellations. This feature encourages creativity and personal engagement, allowing users to form their own connections with the stars and explore the artistic side of astronomy.
+## ✨ Características Principales
 
-On the frontend, we utilized React.js in conjunction with Tailwind CSS. React.js provides a dynamic and responsive user interface, enabling smooth transitions and real-time updates as users interact with the application. Tailwind CSS, with its utility-first approach, allows for rapid design and customization of our user interface, ensuring that it is both aesthetically pleasing and functional. The synergy between the backend and frontend technologies results in a seamless user experience that is both informative and enjoyable.
+- **Exploración de Exoplanetas**: Accede a un catálogo de más de **5,700 exoplanetas** con datos de distancia, masa y estrella anfitriona.
+- **Visualización Estelar Real**: Renderizado del cielo nocturno utilizando el catálogo **HYG v4.1** con más de **119,000 estrellas**, ajustando el brillo y la posición según la ubicación del exoplaneta elegido.
+- **Constelaciones Interactivas**: Herramienta de dibujo para que los usuarios creen y nombren sus propias constelaciones sobre el mapa estelar dinámico.
+- **Búsqueda Avanzada**: Encuentra destinos específicos por nombre o explora los planetas más cercanos a la Tierra.
+- **Diseño Premium**: Interfaz oscura optimizada para la observación astronómica, construida con React y Tailwind CSS.
 
-By integrating these advanced technologies, we have created an application that stands out not only for its educational value but also for its engaging user experience. Our goal is to inspire curiosity about the universe and make astronomical exploration accessible to all, regardless of their prior knowledge or experience in the field.
+![Explorador de Destinos](docs/images/explorer.png)
+
+## 🚀 Tutorial de Ejecución
+
+Sigue estos pasos para ejecutar la aplicación de forma local en tu máquina.
+
+### 1. Requisitos Previos
+
+- **Python 3.10+**
+- **Node.js (v18+)** y **npm**
+- **Git**
+
+### 2. Clonar el Repositorio
+
+```bash
+git clone https://github.com/tu-usuario/Exosky-Nasa-Space-App-2024.git
+cd Exosky-Nasa-Space-App-2024
+```
+
+### 3. Ejecutar el Backend (FastAPI)
+
+El backend maneja los cálculos astronómicos y sirve los catálogos en formato CSV.
+
+```bash
+cd backend
+# Activar el entorno virtual (si ya existe)
+source venv/bin/activate
+# Instalar dependencias
+pip install -r requirements.txt
+# Iniciar el servidor
+python app.py
+```
+*El backend estará disponible en `http://localhost:8000`.*
+
+### 4. Ejecutar el Frontend (React)
+
+El frontend proporciona la interfaz de usuario interactiva.
+
+```bash
+cd ../react_app
+# Instalar dependencias
+npm install
+# Configurar variables de entorno
+# Asegúrate de que .env tenga: REACT_APP_API_URL=http://localhost:8000
+npm start
+```
+*La aplicación se abrirá automáticamente en `http://localhost:3000`.*
+
+![Visualización del Cielo](docs/images/skyview.png)
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Frontend**: React.js, Tailwind CSS, React Sketch Canvas (para constelaciones).
+- **Backend**: FastAPI (Python), Pandas, NumPy (para procesamiento de datos masivos).
+- **Datos**: Catálogo de Exoplanetas de la NASA, Catálogo Estelar HYG.
+
+---
+
